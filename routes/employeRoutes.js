@@ -1,5 +1,5 @@
 const express = require('express');
-const { body, check } = require('express-validator');
+const { check, param } = require('express-validator');
 const { validateFields } = require('../middlewares/validateFields');
 const {
   getEmployees, createEmployee, updateEmployee, deleteEmployee,
@@ -35,33 +35,47 @@ router.post(
   },
 );
 
-router.put('/:id', body('firstName').not().isEmpty().trim()
-  .escape(), validateFields, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const intId = +id;
+router.put(
+  '/:id',
+  [
+    param('id').isNumeric(),
+    check('firstName', 'must send firstName').not().isEmpty(),
+    validateFields,
+  ],
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const intId = +id;
 
-    const payload = req.body;
+      const payload = req.body;
 
-    const employe = await updateEmployee(intId, payload);
+      const employe = await updateEmployee(intId, payload);
 
-    return res.json({ ok: true, employe });
-  } catch (error) {
-    return res.status(500).json({ ok: false });
-  }
-});
+      return res.json({ ok: true, employe });
+    } catch (error) {
+      return res.status(500).json({ ok: false });
+    }
+  },
+);
 
-router.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const intId = +id;
+router.delete(
+  '/:id',
+  [
+    param('id').isNumeric(),
+    validateFields,
+  ],
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const intId = +id;
 
-    const employe = await deleteEmployee(intId);
+      const employe = await deleteEmployee(intId);
 
-    return res.json({ ok: true, employe });
-  } catch (error) {
-    return res.status(500).json({ ok: false });
-  }
-});
+      return res.json({ ok: true, employe });
+    } catch (error) {
+      return res.status(500).json({ ok: false });
+    }
+  },
+);
 
 module.exports = router;
