@@ -14,7 +14,7 @@ class App {
 
   routes() {
     this.app.use('/employe', routeEmploye);
-    this.app.get('/ping', (req, res) => res.json({ msg: 'pong' }));
+    this.app.get('/ping', (_, res) => res.json({ msg: 'pong' }));
   }
 
   build() {
