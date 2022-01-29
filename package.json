@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "test": "jest"
+  },
   "dependencies": {
     "@prisma/client": "^3.8.1",
     "express": "^4.17.2",
@@ -13,6 +18,8 @@
   "devDependencies": {
     "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.25.4"
+    "eslint-plugin-import": "^2.25.4",
+    "jest": "^27.4.7",
+    "supertest": "^6.2.2"
   }
 }
